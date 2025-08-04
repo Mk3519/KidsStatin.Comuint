@@ -46,6 +46,11 @@ function initializeStars() {
 // تشغيل تهيئة النجوم عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', initializeStars);
 
+// متغير لتتبع رقم العملية
+let operationCounter = 1;
+// متغير لتخزين تقييمات العملاء
+const customerFeedbacks = new Map();
+
 // Variable to track submission status
 let isSubmitting = false;
 
@@ -83,12 +88,9 @@ document.getElementById('commentForm').addEventListener('submit', async function
         return;
     }
 
-    // Generate unique ID for the feedback
-    const feedbackId = 'feedback_' + Date.now();
-
-    // Prepare the data
+    // إعداد بيانات التقييم مع رقم العملية
     const data = {
-        id: feedbackId,
+        operationNumber: operationCounter,
         timestamp: timestamp,
         name: name,
         phone: phone,
@@ -98,8 +100,8 @@ document.getElementById('commentForm').addEventListener('submit', async function
         comment: comment || 'No comment'
     };
 
-    // Save to localStorage
-    localStorage.setItem(feedbackId, JSON.stringify(data));
+    // حفظ التقييم في Map
+    customerFeedbacks.set(operationCounter, data);
     
     // Send data to Google Sheets
     try {
@@ -150,6 +152,9 @@ document.getElementById('commentForm').addEventListener('submit', async function
         // Update average rating
         document.getElementById('averageRating').textContent = average + ' / 5';
 
+        // تحديث رقم العملية
+        document.getElementById('operationNumber').textContent = operationCounter;
+        
         // Update customer information
         const summaryName = document.getElementById('summaryName');
         const summaryPhone = document.getElementById('summaryPhone');
@@ -164,6 +169,9 @@ document.getElementById('commentForm').addEventListener('submit', async function
             summaryPhone.textContent = phone;
             summaryPhone.style.color = '#333';
         }
+        
+        // زيادة عداد العمليات
+        operationCounter++;
 
         // Hide loading overlay and show summary
         loadingOverlay.classList.remove('active');
