@@ -14,7 +14,7 @@ function resetForm() {
 // Google Apps Script deployed URL
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKXwqEWn8ii7-53MW9klVSdzKN_kNca80EE9IBfOnRIT0LPnCNw3nGLfpCWXLGfZFU/exec';
 
-// تهيئة نظام التقييم بالنجوم
+// Initialize star rating system
 function initializeStars() {
     document.querySelectorAll('.stars').forEach(starGroup => {
         const stars = starGroup.querySelectorAll('i');
@@ -25,7 +25,7 @@ function initializeStars() {
             star.addEventListener('click', () => {
                 const value = parseInt(star.getAttribute('data-value'));
                 
-                // تحديث شكل النجوم
+                // Update stars appearance
                 stars.forEach(s => {
                     const starValue = parseInt(s.getAttribute('data-value'));
                     if (starValue <= value) {
@@ -35,7 +35,7 @@ function initializeStars() {
                     }
                 });
                 
-                // تخزين القيمة في الحقل المخفي
+                // Store value in hidden input
                 hiddenInput.value = value;
                 console.log(`${ratingType}: ${value}`); // للتأكد من تسجيل القيمة
             });
@@ -46,13 +46,13 @@ function initializeStars() {
 // تشغيل تهيئة النجوم عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', initializeStars);
 
-// متغير لتتبع حالة الإرسال
+// Variable to track submission status
 let isSubmitting = false;
 
 document.getElementById('commentForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    // تجنب الإرسال المتكرر
+    // Prevent multiple submissions
     if (isSubmitting) return;
     
     const submitBtn = document.getElementById('submitBtn');
@@ -62,23 +62,23 @@ document.getElementById('commentForm').addEventListener('submit', async function
     const comment = document.getElementById('comment').value;
     const messageDiv = document.getElementById('message');
     
-    // إظهار شاشة التحميل
+    // Show loading screen
     isSubmitting = true;
     loadingOverlay.classList.add('active');
     submitBtn.disabled = true;
-    messageDiv.style.display = 'none'; // إخفاء أي رسائل سابقة
+    messageDiv.style.display = 'none'; // Hide previous messages
     
     // Create timestamp
     const timestamp = new Date().toLocaleString();
     
-    // التحقق من إدخال التقييمات
+    // Check for ratings input
     const serviceQuality = document.getElementById('serviceQuality').value;
     const cleanliness = document.getElementById('cleanliness').value;
     const serviceSpeed = document.getElementById('serviceSpeed').value;
 
-    // التحقق من وجود تقييم في كل قسم
+    // Verify all sections are rated
     if (!serviceQuality || !cleanliness || !serviceSpeed) {
-        messageDiv.textContent = 'الرجاء تقييم جميع الأقسام بالنجوم';
+        messageDiv.textContent = 'Please rate all sections';
         messageDiv.className = 'message error';
         return;
     }
@@ -91,12 +91,12 @@ document.getElementById('commentForm').addEventListener('submit', async function
         serviceQuality: serviceQuality,
         cleanliness: cleanliness,
         serviceSpeed: serviceSpeed,
-        comment: comment || 'لا يوجد تعليق'
+        comment: comment || 'No comment'
     };
     
     // Send data to Google Sheets
     try {
-        // إرسال البيانات
+        // Send data
         await fetch(SCRIPT_URL, {
             method: 'POST',
             mode: 'no-cors',
@@ -137,10 +137,10 @@ document.getElementById('commentForm').addEventListener('submit', async function
         loadingOverlay.classList.remove('active');
         document.getElementById('feedbackSummary').style.display = 'flex';
         
-        // مسح النموذج
+        // Reset form
         document.getElementById('commentForm').reset();
         
-        // إعادة تعيين النجوم
+        // Reset stars
         document.querySelectorAll('.stars i').forEach(star => {
             star.classList.remove('active');
         });
