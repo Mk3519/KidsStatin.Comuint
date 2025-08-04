@@ -129,19 +129,23 @@ document.getElementById('commentForm').addEventListener('submit', async function
             container.innerHTML = '';
             rating = parseInt(rating);
             
-            // إضافة النجوم المفعلة
+            // إظهار فقط النجوم المُقيمة
             for (let i = 1; i <= rating; i++) {
                 const star = document.createElement('i');
                 star.className = 'fas fa-star active';
+                star.style.fontSize = '24px'; // تكبير حجم النجوم
+                star.style.margin = '0 2px'; // إضافة مسافة بين النجوم
                 container.appendChild(star);
             }
-            
-            // إضافة النجوم غير المفعلة
-            for (let i = rating + 1; i <= 5; i++) {
-                const star = document.createElement('i');
-                star.className = 'fas fa-star';
-                container.appendChild(star);
-            }
+
+            // إضافة رقم التقييم بجانب النجوم
+            const ratingText = document.createElement('span');
+            ratingText.textContent = ` (${rating})`;
+            ratingText.style.marginRight = '5px';
+            ratingText.style.fontSize = '18px';
+            ratingText.style.color = '#2e7d32';
+            ratingText.style.fontWeight = 'bold';
+            container.appendChild(ratingText);
         }
 
         // Update each rating section
