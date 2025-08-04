@@ -46,8 +46,8 @@ function initializeStars() {
 // تشغيل تهيئة النجوم عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', initializeStars);
 
-// متغير لتتبع رقم العملية
-let operationCounter = 1;
+// استرجاع آخر رقم عملية من localStorage أو البدء من 1
+let operationCounter = parseInt(localStorage.getItem('lastOperationNumber') || '0') + 1;
 // متغير لتخزين تقييمات العملاء
 const customerFeedbacks = new Map();
 
@@ -178,7 +178,8 @@ document.getElementById('commentForm').addEventListener('submit', async function
             summaryPhone.style.color = '#333';
         }
         
-        // زيادة عداد العمليات
+        // زيادة عداد العمليات وحفظه في localStorage
+        localStorage.setItem('lastOperationNumber', operationCounter.toString());
         operationCounter++;
 
         // Hide loading overlay and show summary
