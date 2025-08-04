@@ -21,6 +21,23 @@ body {
     text-align: center;
 }
 
+.operation-number {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.operation-number h4 {
+    color: #2e7d32;
+    margin-bottom: 5px;
+}
+
+.operation-number-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2e7d32;
+    margin: 0;
+}
+
 .customer-info {
     margin-bottom: 20px;
     padding: 15px;
