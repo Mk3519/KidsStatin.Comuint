@@ -11,7 +11,39 @@ body {
 }
 
 .logo-container {
+    text-alig.summary-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 90%;
     text-align: center;
+}
+
+.customer-info {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.info-item {
+    margin-bottom: 10px;
+}
+
+.info-item h4 {
+    color: #666;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.info-item p {
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+};
     margin-bottom: 20px;
 }
 
