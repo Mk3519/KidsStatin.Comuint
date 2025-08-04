@@ -46,8 +46,6 @@ function initializeStars() {
 // تشغيل تهيئة النجوم عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', initializeStars);
 
-// استرجاع آخر رقم عملية من localStorage أو البدء من 1
-let operationCounter = parseInt(localStorage.getItem('lastOperationNumber') || '0') + 1;
 // متغير لتخزين تقييمات العملاء
 const customerFeedbacks = new Map();
 
@@ -88,9 +86,8 @@ document.getElementById('commentForm').addEventListener('submit', async function
         return;
     }
 
-    // إعداد بيانات التقييم مع رقم العملية
+    // إعداد بيانات التقييم
     const data = {
-        operationNumber: `#${operationCounter.toString().padStart(4, '0')}`,
         timestamp: timestamp,
         name: name,
         phone: phone,
@@ -99,21 +96,25 @@ document.getElementById('commentForm').addEventListener('submit', async function
         serviceSpeed: serviceSpeed,
         comment: comment || 'No comment'
     };
-
-    // حفظ التقييم في Map
-    customerFeedbacks.set(operationCounter, data);
     
     // Send data to Google Sheets
     try {
-        // Send data
-        await fetch(SCRIPT_URL, {
+        // إرسال البيانات والحصول على رقم العملية
+        const response = await fetch(SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
         });
+        
+        const result = await response.json();
+        if (!result.success) {
+            throw new Error(result.error);
+        }
+        
+        // تحديث رقم العملية من الاستجابة
+        const operationNumber = result.operationNumber;
 
         // Calculate average rating
         const ratings = [
@@ -160,8 +161,8 @@ document.getElementById('commentForm').addEventListener('submit', async function
         // Update average rating
         document.getElementById('averageRating').textContent = average + ' / 5';
 
-        // تحديث رقم العملية بتنسيق أفضل
-        document.getElementById('operationNumber').textContent = data.operationNumber;
+        // Show the feedback summary section
+        document.getElementById('feedbackSummary').classList.add('visible');
         
         // Update customer information
         const summaryName = document.getElementById('summaryName');
@@ -178,10 +179,9 @@ document.getElementById('commentForm').addEventListener('submit', async function
             summaryPhone.style.color = '#333';
         }
         
-        // زيادة عداد العمليات وحفظه في localStorage
-        localStorage.setItem('lastOperationNumber', operationCounter.toString());
-        operationCounter++;
-
+        // تحديث رقم العملية من الاستجابة وعرض الملخص
+        document.getElementById('operationNumber').textContent = operationNumber;
+        
         // Hide loading overlay and show summary
         loadingOverlay.classList.remove('active');
         document.getElementById('feedbackSummary').style.display = 'flex';
