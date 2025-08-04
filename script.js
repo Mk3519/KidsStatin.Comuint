@@ -83,8 +83,12 @@ document.getElementById('commentForm').addEventListener('submit', async function
         return;
     }
 
+    // Generate unique ID for the feedback
+    const feedbackId = 'feedback_' + Date.now();
+
     // Prepare the data
     const data = {
+        id: feedbackId,
         timestamp: timestamp,
         name: name,
         phone: phone,
@@ -93,6 +97,9 @@ document.getElementById('commentForm').addEventListener('submit', async function
         serviceSpeed: serviceSpeed,
         comment: comment || 'No comment'
     };
+
+    // Save to localStorage
+    localStorage.setItem(feedbackId, JSON.stringify(data));
     
     // Send data to Google Sheets
     try {
@@ -118,10 +125,19 @@ document.getElementById('commentForm').addEventListener('submit', async function
         function createStarRating(containerId, rating) {
             const container = document.getElementById(containerId);
             container.innerHTML = '';
-            // فقط إضافة النجوم التي تم تقييمها
+            rating = parseInt(rating);
+            
+            // إضافة النجوم المفعلة
             for (let i = 1; i <= rating; i++) {
                 const star = document.createElement('i');
                 star.className = 'fas fa-star active';
+                container.appendChild(star);
+            }
+            
+            // إضافة النجوم غير المفعلة
+            for (let i = rating + 1; i <= 5; i++) {
+                const star = document.createElement('i');
+                star.className = 'fas fa-star';
                 container.appendChild(star);
             }
         }
@@ -135,8 +151,19 @@ document.getElementById('commentForm').addEventListener('submit', async function
         document.getElementById('averageRating').textContent = average + ' / 5';
 
         // Update customer information
-        document.getElementById('summaryName').textContent = name;
-        document.getElementById('summaryPhone').textContent = phone;
+        const summaryName = document.getElementById('summaryName');
+        const summaryPhone = document.getElementById('summaryPhone');
+        
+        // تحديث معلومات العميل بشكل واضح
+        if (name) {
+            summaryName.textContent = name;
+            summaryName.style.color = '#333';
+        }
+        
+        if (phone) {
+            summaryPhone.textContent = phone;
+            summaryPhone.style.color = '#333';
+        }
 
         // Hide loading overlay and show summary
         loadingOverlay.classList.remove('active');
