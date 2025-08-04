@@ -118,9 +118,10 @@ document.getElementById('commentForm').addEventListener('submit', async function
         function createStarRating(containerId, rating) {
             const container = document.getElementById(containerId);
             container.innerHTML = '';
-            for (let i = 1; i <= 5; i++) {
+            // فقط إضافة النجوم التي تم تقييمها
+            for (let i = 1; i <= rating; i++) {
                 const star = document.createElement('i');
-                star.className = `fas fa-star ${i <= rating ? 'active' : ''}`;
+                star.className = 'fas fa-star active';
                 container.appendChild(star);
             }
         }
@@ -132,6 +133,10 @@ document.getElementById('commentForm').addEventListener('submit', async function
 
         // Update average rating
         document.getElementById('averageRating').textContent = average + ' / 5';
+
+        // Update customer information
+        document.getElementById('summaryName').textContent = name;
+        document.getElementById('summaryPhone').textContent = phone;
 
         // Hide loading overlay and show summary
         loadingOverlay.classList.remove('active');
