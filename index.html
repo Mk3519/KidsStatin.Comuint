@@ -18,19 +18,31 @@
     <div class="feedback-summary" id="feedbackSummary">
         <div class="summary-content">
             <h2>Thank You for Your Feedback!</h2>
-            <div class="feedback-details">
-                <div class="operation-number">
-                    <div class="detail-label">Operation Number</div>
-                    <div id="operationNumber" class="operation-number-value"></div>
-                </div>
-                <div class="customer-details">
-                    <div class="detail-item">
-                        <div class="detail-label">Name</div>
-                        <div id="summaryName" class="detail-value"></div>
+            <div class="feedback-container">
+                <div class="feedback-header">
+                    <div class="operation-badge">
+                        <span class="badge-label">Operation</span>
+                        <span id="operationNumber" class="badge-number"></span>
                     </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Phone</div>
-                        <div id="summaryPhone" class="detail-value"></div>
+                </div>
+                <div class="customer-card">
+                    <div class="card-row">
+                        <div class="card-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="card-info">
+                            <div class="info-label">Customer Name</div>
+                            <div id="summaryName" class="info-value"></div>
+                        </div>
+                    </div>
+                    <div class="card-row">
+                        <div class="card-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="card-info">
+                            <div class="info-label">Phone Number</div>
+                            <div id="summaryPhone" class="info-value"></div>
+                        </div>
                     </div>
                 </div>
             </div>
