@@ -21,28 +21,61 @@ body {
     text-align: center;
 }
 
-.operation-number {
-    margin-bottom: 15px;
-    text-align: center;
+.feedback-details {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-.operation-number h4 {
-    color: #2e7d32;
+.operation-number {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #2e7d32;
+    border-radius: 8px;
+    color: white;
+}
+
+.operation-number .detail-label {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     margin-bottom: 5px;
 }
 
 .operation-number-value {
-    font-size: 24px;
+    font-size: 32px;
     font-weight: bold;
-    color: #2e7d32;
-    margin: 0;
 }
 
-.customer-info {
-    margin-bottom: 20px;
+.customer-details {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.detail-item {
+    flex: 1;
+    background-color: white;
     padding: 15px;
-    background-color: #f8f9fa;
     border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.detail-label {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.detail-value {
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .info-item {
