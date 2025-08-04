@@ -90,7 +90,7 @@ document.getElementById('commentForm').addEventListener('submit', async function
 
     // إعداد بيانات التقييم مع رقم العملية
     const data = {
-        operationNumber: operationCounter,
+        operationNumber: `#${operationCounter.toString().padStart(4, '0')}`,
         timestamp: timestamp,
         name: name,
         phone: phone,
@@ -160,8 +160,8 @@ document.getElementById('commentForm').addEventListener('submit', async function
         // Update average rating
         document.getElementById('averageRating').textContent = average + ' / 5';
 
-        // تحديث رقم العملية
-        document.getElementById('operationNumber').textContent = operationCounter;
+        // تحديث رقم العملية بتنسيق أفضل
+        document.getElementById('operationNumber').textContent = data.operationNumber;
         
         // Update customer information
         const summaryName = document.getElementById('summaryName');
