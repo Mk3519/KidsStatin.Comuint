@@ -12,7 +12,7 @@ function resetForm() {
 }
 
 // Google Apps Script deployed URL
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxpzBYPmszdSyKvOhxOLIH5Vs_hfbmi2yB04ShNNmjCudi9QDp-E7AZCcEnHla3_fnf/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbww6MqddDGB6MHpwf70uL74kmxIBX-aHyWv6I2d6cVIo64vbUv3nkn9oF4JZkqEzZwZ/exec';
 
 // Initialize star rating system
 function initializeStars() {
@@ -102,19 +102,32 @@ document.getElementById('commentForm').addEventListener('submit', async function
         // إرسال البيانات والحصول على رقم العملية
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
+            mode: 'cors',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
         });
         
-        const result = await response.json();
-        if (!result.success) {
-            throw new Error(result.error);
+        // التحقق من نجاح الطلب
+        if (!response.ok) {
+            throw new Error(`فشل في الاتصال بالخادم: ${response.status}`);
+        }
+
+        const result = await response.text();
+        let parsedResult;
+        try {
+            parsedResult = JSON.parse(result);
+            if (!parsedResult.success) {
+                throw new Error(parsedResult.error || 'حدث خطأ غير معروف');
+            }
+        } catch (parseError) {
+            console.error('خطأ في تحليل الاستجابة:', result);
+            throw new Error('فشل في قراءة الاستجابة من الخادم');
         }
         
         // تحديث رقم العملية من الاستجابة
-        const operationNumber = result.operationNumber;
+        const operationNumber = parsedResult.operationNumber;
 
         // Calculate average rating
         const ratings = [
@@ -197,10 +210,10 @@ document.getElementById('commentForm').addEventListener('submit', async function
             input.value = '0';
         });
     } catch (error) {
-        // Error message
-        messageDiv.textContent = 'An error occurred while submitting your feedback. Please try again.';
+        // رسالة الخطأ بالعربية
+        messageDiv.textContent = 'حدث خطأ أثناء إرسال التقييم. يرجى المحاولة مرة أخرى.';
         messageDiv.className = 'message error';
-        console.error('Error:', error);
+        console.error('الخطأ:', error);
     } finally {
         // إنهاء التحميل
         isSubmitting = false;
