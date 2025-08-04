@@ -12,7 +12,7 @@ function resetForm() {
 }
 
 // Google Apps Script deployed URL
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyd46yVwBts1jmQ7mxPhHv29RfN87YkMGAEpGZl1nvH84o_NOYIpPr70XzwGMxBAeAl/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxpzBYPmszdSyKvOhxOLIH5Vs_hfbmi2yB04ShNNmjCudi9QDp-E7AZCcEnHla3_fnf/exec';
 
 // Initialize star rating system
 function initializeStars() {
