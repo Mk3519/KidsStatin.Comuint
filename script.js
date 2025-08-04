@@ -129,23 +129,27 @@ document.getElementById('commentForm').addEventListener('submit', async function
             container.innerHTML = '';
             rating = parseInt(rating);
             
-            // إظهار فقط النجوم المُقيمة
+            const starsWrapper = document.createElement('div');
+            starsWrapper.className = 'stars-wrapper';
+            
+            // إضافة النجوم المفعلة مع تأثير حركي
             for (let i = 1; i <= rating; i++) {
                 const star = document.createElement('i');
                 star.className = 'fas fa-star active';
-                star.style.fontSize = '24px'; // تكبير حجم النجوم
-                star.style.margin = '0 2px'; // إضافة مسافة بين النجوم
-                container.appendChild(star);
+                // تأخير ظهور كل نجمة لإضافة تأثير حركي
+                setTimeout(() => {
+                    starsWrapper.appendChild(star);
+                }, i * 100);
             }
+            
+            container.appendChild(starsWrapper);
 
-            // إضافة رقم التقييم بجانب النجوم
-            const ratingText = document.createElement('span');
-            ratingText.textContent = ` (${rating})`;
-            ratingText.style.marginRight = '5px';
-            ratingText.style.fontSize = '18px';
-            ratingText.style.color = '#2e7d32';
-            ratingText.style.fontWeight = 'bold';
-            container.appendChild(ratingText);
+            // إضافة رقم التقييم بتصميم جديد
+            setTimeout(() => {
+                const ratingBadge = document.createElement('span');
+                ratingBadge.textContent = rating + '/5';
+                container.appendChild(ratingBadge);
+            }, (rating + 1) * 100);
         }
 
         // Update each rating section
