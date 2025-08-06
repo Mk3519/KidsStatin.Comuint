@@ -65,6 +65,14 @@ document.getElementById('commentForm').addEventListener('submit', async function
     const comment = document.getElementById('comment').value;
     const messageDiv = document.getElementById('message');
     
+    // Create timestamp
+    const timestamp = new Date().toLocaleString();
+    
+    // Get ratings input
+    const serviceQuality = document.getElementById('serviceQuality').value;
+    const cleanliness = document.getElementById('cleanliness').value;
+    const serviceSpeed = document.getElementById('serviceSpeed').value;
+
     // تحقق من وجود تقييمات
     if (serviceQuality === '0' || cleanliness === '0' || serviceSpeed === '0') {
         messageDiv.textContent = 'الرجاء تقييم جميع الأقسام';
@@ -78,21 +86,6 @@ document.getElementById('commentForm').addEventListener('submit', async function
     loadingOverlay.classList.add('active');
     submitBtn.disabled = true;
     messageDiv.style.display = 'none'; // Hide previous messages
-    
-    // Create timestamp
-    const timestamp = new Date().toLocaleString();
-    
-    // Check for ratings input
-    const serviceQuality = document.getElementById('serviceQuality').value;
-    const cleanliness = document.getElementById('cleanliness').value;
-    const serviceSpeed = document.getElementById('serviceSpeed').value;
-
-    // Verify all sections are rated
-    if (!serviceQuality || !cleanliness || !serviceSpeed) {
-        messageDiv.textContent = 'Please rate all sections';
-        messageDiv.className = 'message error';
-        return;
-    }
 
     // إعداد بيانات التقييم
     const data = {
@@ -107,6 +100,8 @@ document.getElementById('commentForm').addEventListener('submit', async function
     
     // Send data to Google Sheets
     try {
+        console.log('بيانات التقييم:', data); // لمراقبة البيانات المرسلة
+        
         // إرسال البيانات والحصول على رقم العملية
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
