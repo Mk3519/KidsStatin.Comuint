@@ -7,6 +7,7 @@
     <link rel="icon" href="images/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
     <!-- Welcome Screen -->
@@ -75,7 +76,17 @@ survey. We value you as a customer and would appreciate your feedback!</p>
                 <h3>Overall Rating:</h3>
                 <div class="rating-number" id="averageRating"></div>
             </div>
-            <button onclick="resetForm()" class="new-feedback-btn">Submit New Feedback</button>
+            <div class="action-buttons">
+                <div class="share-buttons" id="shareButtons">
+                    <button onclick="downloadSummary()" class="share-btn download-btn">
+                        <i class="fas fa-download"></i> تحميل البطاقة
+                    </button>
+                    <button onclick="shareSummary()" class="share-btn share-btn-whatsapp">
+                        <i class="fab fa-whatsapp"></i> مشاركة عبر واتساب
+                    </button>
+                </div>
+                <button onclick="resetForm()" class="new-feedback-btn">Submit New Feedback</button>
+            </div>
         </div>
     </div>
 
