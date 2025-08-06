@@ -79,6 +79,107 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// دالة لتحويل ملخص التقييم إلى صورة وتحميلها
+async function downloadSummary() {
+    const summary = document.querySelector('.feedback-container');
+    const actionButtons = document.querySelector('.action-buttons');
+    
+    try {
+        // إظهار رسالة تحميل
+        const messageDiv = document.getElementById('message');
+        messageDiv.textContent = 'جاري تجهيز الصورة...';
+        messageDiv.className = 'message info';
+        messageDiv.style.display = 'block';
+
+        // إخفاء الأزرار مؤقتاً
+        actionButtons.style.display = 'none';
+
+        // تحويل العنصر إلى صورة
+        const canvas = await html2canvas(summary, {
+            backgroundColor: '#ffffff',
+            scale: 2, // جودة أعلى
+            logging: false
+        });
+
+        // تحويل الصورة إلى URL
+        const imageUrl = canvas.toDataURL('image/png');
+        
+        // إنشاء رابط للتحميل
+        const link = document.createElement('a');
+        link.download = 'تقييم-kids-station.png';
+        link.href = imageUrl;
+        link.click();
+
+        // إعادة إظهار الأزرار
+        actionButtons.style.display = 'flex';
+
+        // تحديث رسالة النجاح
+        messageDiv.textContent = 'تم تحميل الصورة بنجاح!';
+        messageDiv.className = 'message success';
+        setTimeout(() => {
+            messageDiv.style.display = 'none';
+        }, 3000);
+    } catch (error) {
+        console.error('خطأ في تحميل الصورة:', error);
+        const messageDiv = document.getElementById('message');
+        messageDiv.textContent = 'حدث خطأ أثناء تحميل الصورة. حاول مرة أخرى.';
+        messageDiv.className = 'message error';
+        messageDiv.style.display = 'block';
+    }
+}
+
+// دالة لمشاركة التقييم عبر واتساب
+async function shareSummary() {
+    const summary = document.querySelector('.feedback-container');
+    const actionButtons = document.querySelector('.action-buttons');
+    
+    try {
+        // إظهار رسالة تحميل
+        const messageDiv = document.getElementById('message');
+        messageDiv.textContent = 'جاري تجهيز المشاركة...';
+        messageDiv.className = 'message info';
+        messageDiv.style.display = 'block';
+
+        // إخفاء الأزرار مؤقتاً
+        actionButtons.style.display = 'none';
+
+        // تحويل العنصر إلى صورة
+        const canvas = await html2canvas(summary, {
+            backgroundColor: '#ffffff',
+            scale: 2,
+            logging: false
+        });
+
+        // تحويل الصورة إلى blob
+        canvas.toBlob((blob) => {
+            // إنشاء ملف من الـ blob
+            const file = new File([blob], 'تقييم-kids-station.png', { type: 'image/png' });
+            
+            // إنشاء رابط مشاركة واتساب
+            const text = 'تقييمي لـ Kids Station 🌟';
+            const shareUrl = `whatsapp://send?text=${encodeURIComponent(text)}`;
+            
+            // فتح واتساب
+            window.location.href = shareUrl;
+            
+            // إعادة إظهار الأزرار
+            actionButtons.style.display = 'flex';
+
+            messageDiv.textContent = 'تم فتح واتساب للمشاركة!';
+            messageDiv.className = 'message success';
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 3000);
+        }, 'image/png');
+    } catch (error) {
+        console.error('خطأ في المشاركة:', error);
+        const messageDiv = document.getElementById('message');
+        messageDiv.textContent = 'حدث خطأ أثناء المشاركة. حاول مرة أخرى.';
+        messageDiv.className = 'message error';
+        messageDiv.style.display = 'block';
+    }
+}
+
 // متغير لتخزين تقييمات العملاء
 const customerFeedbacks = new Map();
 
@@ -260,7 +361,7 @@ document.getElementById('commentForm').addEventListener('submit', async function
         
         if (!messageDiv.classList.contains('error')) {
             // إظهار رسالة نجاح فقط إذا لم يكن هناك خطأ
-            messageDiv.textContent = 'تم إرسال تقييمك بنجاح! رقم العملية: ' + operationNumber;
+            messageDiv.textContent = 'تم إرسال تقييمك بنجاح! رقم العملية: ' ;
             messageDiv.className = 'message success';
             messageDiv.style.display = 'block';
             // عرض ملخص التقييم
