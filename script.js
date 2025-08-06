@@ -12,7 +12,7 @@ function resetForm() {
 }
 
 // Google Apps Script deployed URL
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxcV4CyTVub08U0vHpfgHcGvYhgFpE7mvMWmJBvBtJkbaGlX_jQk1r0PHG7IFZR2E82/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxcV4CyTVub08U0vHpfgHcGvYhgFpE7mvMWmJBvBtJkbaGlX_jQk1r0PHG7IFZR2E82/exec?callback=callback';
 
 // Initialize star rating system
 function initializeStars() {
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (welcomeScreen) {
         setTimeout(() => {
             welcomeScreen.style.display = 'none';
-        }, 12000); // 15 seconds
+        }, 9000); // 15 seconds
     }
     initializeStars();
     
@@ -135,25 +135,15 @@ document.getElementById('commentForm').addEventListener('submit', async function
     try {
         console.log('بيانات التقييم:', data); // لمراقبة البيانات المرسلة
         
-        // إنشاء عنصر form لإرسال البيانات
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = SCRIPT_URL;
-        
-        // إضافة البيانات كحقول مخفية
-        const hiddenField = document.createElement('input');
-        hiddenField.type = 'hidden';
-        hiddenField.name = 'data';
-        hiddenField.value = JSON.stringify(data);
-        form.appendChild(hiddenField);
-        
-        // إضافة النموذج للصفحة وإرساله
-        document.body.appendChild(form);
-        await new Promise(resolve => {
-            form.submit();
-            setTimeout(resolve, 1000); // انتظار ثانية واحدة
+        // إرسال البيانات باستخدام fetch
+        const response = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', // مهم للتعامل مع CORS
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
         });
-        document.body.removeChild(form);
 
         // توليد رقم عملية باستخدام التاريخ والوقت
         const now = new Date();
