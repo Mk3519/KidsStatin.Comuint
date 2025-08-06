@@ -12,7 +12,7 @@ function resetForm() {
 }
 
 // Google Apps Script deployed URL
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxcV4CyTVub08U0vHpfgHcGvYhgFpE7mvMWmJBvBtJkbaGlX_jQk1r0PHG7IFZR2E82/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyUoHU4YjY5THIpejuFP7khEq8UhJlZkpVnPJpToKGo9sMKLAH7-J2njWkk9QtGhT7n/exec';
 
 // Initialize star rating system
 function initializeStars() {
@@ -216,9 +216,12 @@ document.getElementById('commentForm').addEventListener('submit', async function
     const serviceQuality = document.getElementById('serviceQuality').value;
     const cleanliness = document.getElementById('cleanliness').value;
     const serviceSpeed = document.getElementById('serviceSpeed').value;
+    const foodQuality = document.getElementById('foodQuality').value;
+    const valueForMoney = document.getElementById('valueForMoney').value;
 
     // تحقق من وجود تقييمات
-    if (serviceQuality === '0' || cleanliness === '0' || serviceSpeed === '0') {
+    if (serviceQuality === '0' || cleanliness === '0' || serviceSpeed === '0' || 
+        foodQuality === '0' || valueForMoney === '0') {
         messageDiv.textContent = 'الرجاء تقييم جميع الأقسام';
         messageDiv.className = 'message error';
         messageDiv.style.display = 'block';
@@ -239,6 +242,8 @@ document.getElementById('commentForm').addEventListener('submit', async function
         serviceQuality: serviceQuality,
         cleanliness: cleanliness,
         serviceSpeed: serviceSpeed,
+        foodQuality: foodQuality,
+        valueForMoney: valueForMoney,
         comment: comment || 'No comment'
     };
     
@@ -270,7 +275,9 @@ document.getElementById('commentForm').addEventListener('submit', async function
         const ratings = [
             parseInt(serviceQuality),
             parseInt(cleanliness),
-            parseInt(serviceSpeed)
+            parseInt(serviceSpeed),
+            parseInt(foodQuality),
+            parseInt(valueForMoney)
         ];
         const average = (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1);
 
@@ -307,6 +314,8 @@ document.getElementById('commentForm').addEventListener('submit', async function
         createStarRating('summaryServiceQuality', serviceQuality);
         createStarRating('summaryCleanliness', cleanliness);
         createStarRating('summaryServiceSpeed', serviceSpeed);
+        createStarRating('summaryFoodQuality', foodQuality);
+        createStarRating('summaryValueForMoney', valueForMoney);
 
         // Update average rating
         document.getElementById('averageRating').textContent = average + ' / 5';
@@ -353,6 +362,8 @@ document.getElementById('commentForm').addEventListener('submit', async function
         document.getElementById('serviceQuality').value = '0';
         document.getElementById('cleanliness').value = '0';
         document.getElementById('serviceSpeed').value = '0';
+        document.getElementById('foodQuality').value = '0';
+        document.getElementById('valueForMoney').value = '0';
         
         // مسح حقول الإدخال
         document.getElementById('name').value = '';
