@@ -47,11 +47,11 @@ function initializeStars() {
 document.addEventListener('DOMContentLoaded', function() {
     // Welcome Screen Handler
     const welcomeScreen = document.getElementById('welcomeScreen');
-    if (welcomeScreen) {
-        setTimeout(() => {
+    setTimeout(() => {
+        if (welcomeScreen) {
             welcomeScreen.style.display = 'none';
-        }, 3000); // 3 seconds
-    }
+        }
+    }, 4000); // 4 seconds
     initializeStars();
     
     // التحقق من نجاح العملية
