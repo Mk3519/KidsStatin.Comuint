@@ -12,7 +12,7 @@ function resetForm() {
 }
 
 // Google Apps Script deployed URL
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbaLyrI3Etpp9oT0Ycl-qekzqih9YxGmliBSppI7_D3DiO7gjw3BnpgOLWqHVP6BRZ/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxcV4CyTVub08U0vHpfgHcGvYhgFpE7mvMWmJBvBtJkbaGlX_jQk1r0PHG7IFZR2E82/exec';
 
 // Initialize star rating system
 function initializeStars() {
@@ -44,7 +44,33 @@ function initializeStars() {
 }
 
 // تشغيل تهيئة النجوم عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', initializeStars);
+document.addEventListener('DOMContentLoaded', () => {
+    initializeStars();
+    
+    // التحقق من نجاح العملية
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('success') === 'true') {
+        const operationNumber = urlParams.get('operation');
+        document.getElementById('operationNumber').textContent = operationNumber;
+        document.getElementById('feedbackSummary').style.display = 'flex';
+        
+        const messageDiv = document.getElementById('message');
+        messageDiv.textContent = 'تم إرسال تقييمك بنجاح! رقم العملية: ' + operationNumber;
+        messageDiv.className = 'message success';
+        messageDiv.style.display = 'block';
+        
+        // مسح المعلمات من URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (urlParams.get('error') === 'true') {
+        const messageDiv = document.getElementById('message');
+        messageDiv.textContent = 'حدث خطأ أثناء إرسال التقييم. يرجى المحاولة مرة أخرى.';
+        messageDiv.className = 'message error';
+        messageDiv.style.display = 'block';
+        
+        // مسح المعلمات من URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+});
 
 // متغير لتخزين تقييمات العملاء
 const customerFeedbacks = new Map();
@@ -102,15 +128,25 @@ document.getElementById('commentForm').addEventListener('submit', async function
     try {
         console.log('بيانات التقييم:', data); // لمراقبة البيانات المرسلة
         
-        // إرسال البيانات والحصول على رقم العملية
-        const response = await fetch(SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors', // تغيير لـ no-cors لحل مشكلة CORS
-            headers: {
-                'Content-Type': 'text/plain',
-            },
-            body: JSON.stringify(data)
+        // إنشاء عنصر form لإرسال البيانات
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = SCRIPT_URL;
+        
+        // إضافة البيانات كحقول مخفية
+        const hiddenField = document.createElement('input');
+        hiddenField.type = 'hidden';
+        hiddenField.name = 'data';
+        hiddenField.value = JSON.stringify(data);
+        form.appendChild(hiddenField);
+        
+        // إضافة النموذج للصفحة وإرساله
+        document.body.appendChild(form);
+        await new Promise(resolve => {
+            form.submit();
+            setTimeout(resolve, 1000); // انتظار ثانية واحدة
         });
+        document.body.removeChild(form);
 
         // توليد رقم عملية باستخدام التاريخ والوقت
         const now = new Date();
