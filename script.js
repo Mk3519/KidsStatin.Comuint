@@ -98,7 +98,12 @@ async function downloadSummary() {
         const canvas = await html2canvas(summary, {
             backgroundColor: '#ffffff',
             scale: 2, // جودة أعلى
-            logging: false
+            logging: false,
+            useCORS: true,
+            windowWidth: summary.scrollWidth,
+            windowHeight: summary.scrollHeight,
+            width: summary.offsetWidth,
+            height: summary.offsetHeight
         });
 
         // تحويل الصورة إلى URL
@@ -130,7 +135,7 @@ async function downloadSummary() {
 
 // دالة لمشاركة التقييم عبر واتساب
 async function shareSummary() {
-    const summary = document.querySelector('.feedback-container');
+    const summary = document.querySelector('.summary-content');
     const actionButtons = document.querySelector('.action-buttons');
     
     try {
@@ -147,7 +152,12 @@ async function shareSummary() {
         const canvas = await html2canvas(summary, {
             backgroundColor: '#ffffff',
             scale: 2,
-            logging: false
+            logging: false,
+            useCORS: true,
+            windowWidth: summary.scrollWidth,
+            windowHeight: summary.scrollHeight,
+            width: summary.offsetWidth,
+            height: summary.offsetHeight
         });
 
         // تحويل الصورة إلى blob
