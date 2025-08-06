@@ -44,7 +44,14 @@ function initializeStars() {
 }
 
 // تشغيل تهيئة النجوم عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
+    // Welcome Screen Handler
+    const welcomeScreen = document.getElementById('welcomeScreen');
+    if (welcomeScreen) {
+        setTimeout(() => {
+            welcomeScreen.style.display = 'none';
+        }, 3000); // 3 seconds
+    }
     initializeStars();
     
     // التحقق من نجاح العملية
