@@ -143,17 +143,21 @@ body {
 }
 
 .customer-card {
-    padding: 20px;
+    padding: 15px;
+    margin: 15px 0;
+    background: #f8f9fa;
+    border-radius: 12px;
 }
 
 .card-row {
     display: flex;
     align-items: center;
-    background: #f8f9fa;
-    margin-bottom: 15px;
-    padding: 15px;
-    border-radius: 10px;
+    background: white;
+    margin-bottom: 10px;
+    padding: 12px;
+    border-radius: 8px;
     transition: transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .card-row:hover {
@@ -394,21 +398,27 @@ button:disabled {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background-color: rgba(255, 255, 255, 0.95);
     z-index: 1000;
     justify-content: center;
     align-items: center;
+    padding: 20px;
+    overflow-y: auto;
 }
 
 .summary-content {
     background: white;
-    padding: 30px;
-    border-radius: 10px;
+    padding: 20px;
+    border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    width: 90%;
+    width: 100%;
+    max-width: 450px;
     text-align: center;
+    margin: auto;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .summary-ratings {
@@ -542,9 +552,51 @@ button:disabled {
         margin: 10px;
     }
 
+    .summary-content {
+        padding: 15px;
+        width: 95%;
+        max-height: 90vh;
+        overflow-y: auto;
+        top: 0;
+        transform: none;
+        margin: 20px auto;
+    }
+
+    .feedback-summary {
+        align-items: flex-start;
+        padding: 10px;
+    }
+
     h1 {
         font-size: 20px;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
+    }
+
+    .card-row {
+        padding: 10px;
+        margin-bottom: 8px;
+    }
+
+    .card-icon {
+        width: 35px;
+        height: 35px;
+        margin-right: 10px;
+    }
+
+    .info-label {
+        font-size: 11px;
+    }
+
+    .info-value {
+        font-size: 14px;
+    }
+
+    .stars-wrapper i {
+        font-size: 20px;
+    }
+
+    .rating-number {
+        font-size: 28px;
     }
 
     input, textarea, button {
@@ -553,11 +605,32 @@ button:disabled {
     }
 
     .stars i {
-        font-size: 28px;
+        font-size: 24px;
     }
 
     .rating-group {
         padding: 10px;
         margin-bottom: 15px;
+    }
+}
+
+/* للشاشات الصغيرة جداً */
+@media (max-width: 480px) {
+    .summary-content {
+        padding: 10px;
+        margin: 10px auto;
+    }
+
+    .card-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .info-value {
+        font-size: 13px;
+    }
+
+    .stars-wrapper i {
+        font-size: 18px;
     }
 }
