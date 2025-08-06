@@ -65,6 +65,14 @@ document.getElementById('commentForm').addEventListener('submit', async function
     const comment = document.getElementById('comment').value;
     const messageDiv = document.getElementById('message');
     
+    // تحقق من وجود تقييمات
+    if (serviceQuality === '0' || cleanliness === '0' || serviceSpeed === '0') {
+        messageDiv.textContent = 'الرجاء تقييم جميع الأقسام';
+        messageDiv.className = 'message error';
+        messageDiv.style.display = 'block';
+        return;
+    }
+
     // Show loading screen
     isSubmitting = true;
     loadingOverlay.classList.add('active');
@@ -163,8 +171,13 @@ document.getElementById('commentForm').addEventListener('submit', async function
         // Update average rating
         document.getElementById('averageRating').textContent = average + ' / 5';
 
-        // Show the feedback summary section
-        document.getElementById('feedbackSummary').classList.add('visible');
+        // عرض ملخص التقييم
+        const feedbackSummary = document.getElementById('feedbackSummary');
+        feedbackSummary.style.display = 'flex';
+        feedbackSummary.classList.add('visible');
+        
+        // تمرير لأعلى الصفحة لعرض الملخص
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         
         // Update customer information
         const summaryName = document.getElementById('summaryName');
@@ -191,13 +204,20 @@ document.getElementById('commentForm').addEventListener('submit', async function
         // Reset form
         document.getElementById('commentForm').reset();
         
-        // Reset stars
+        // إعادة تعيين النجوم ومسح جميع المدخلات
         document.querySelectorAll('.stars i').forEach(star => {
             star.classList.remove('active');
         });
-        document.querySelectorAll('input[type="hidden"]').forEach(input => {
-            input.value = '0';
-        });
+        
+        // إعادة تعيين قيم التقييم المخفية
+        document.getElementById('serviceQuality').value = '0';
+        document.getElementById('cleanliness').value = '0';
+        document.getElementById('serviceSpeed').value = '0';
+        
+        // مسح حقول الإدخال
+        document.getElementById('name').value = '';
+        document.getElementById('phone').value = '';
+        document.getElementById('comment').value = '';
     } catch (error) {
         // رسالة الخطأ بالعربية
         messageDiv.textContent = 'حدث خطأ أثناء إرسال التقييم. يرجى المحاولة مرة أخرى.';
