@@ -10,6 +10,56 @@ body {
     padding: 20px;
 }
 
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.share-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    gap: 8px;
+    color: white;
+}
+
+.download-btn {
+    background-color: #4CAF50;
+}
+
+.download-btn:hover {
+    background-color: #45a049;
+}
+
+.share-btn-whatsapp {
+    background-color: #25D366;
+}
+
+.share-btn-whatsapp:hover {
+    background-color: #128C7E;
+}
+
+.share-btn i {
+    font-size: 18px;
+}
+
 /* Welcome Screen */
 .welcome-screen {
     position: fixed;
