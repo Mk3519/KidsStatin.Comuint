@@ -12,7 +12,7 @@ function resetForm() {
 }
 
 // Google Apps Script deployed URL
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbww6MqddDGB6MHpwf70uL74kmxIBX-aHyWv6I2d6cVIo64vbUv3nkn9oF4JZkqEzZwZ/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyWHMYUH0HqUkPkxzq_iSU6sE_j5VOhEQuFTqzJom6dMeWkCQlEbccFJqbU1Riladx4/exec';
 
 // Initialize star rating system
 function initializeStars() {
@@ -102,9 +102,9 @@ document.getElementById('commentForm').addEventListener('submit', async function
         // إرسال البيانات والحصول على رقم العملية
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors', // تغيير لـ no-cors لحل مشكلة CORS
+            mode: 'cors',
             headers: {
-                'Content-Type': 'text/plain'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
         });
