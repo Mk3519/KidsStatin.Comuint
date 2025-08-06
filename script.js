@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // دالة لتحويل ملخص التقييم إلى صورة وتحميلها
 async function downloadSummary() {
-    const summary = document.querySelector('.feedback-container');
+    const summary = document.querySelector('.summary-content');
     const actionButtons = document.querySelector('.action-buttons');
     
     try {
