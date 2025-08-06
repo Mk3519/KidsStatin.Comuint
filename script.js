@@ -102,7 +102,7 @@ document.getElementById('commentForm').addEventListener('submit', async function
         // إرسال البيانات والحصول على رقم العملية
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors', // تغيير هذا لحل مشكلة CORS
+            mode: 'cors',
             headers: {
                 'Content-Type': 'application/json'
             },
