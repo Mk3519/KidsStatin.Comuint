@@ -12,7 +12,7 @@ function resetForm() {
 }
 
 // Google Apps Script deployed URL
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyWHMYUH0HqUkPkxzq_iSU6sE_j5VOhEQuFTqzJom6dMeWkCQlEbccFJqbU1Riladx4/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxySw4PxouN8W8icJU2F4QXlnDv4-z0vTiKwJnBUnfe6DUOG1ZEdB9GkDSjWieMc5jN/exec';
 
 // Initialize star rating system
 function initializeStars() {
@@ -102,32 +102,21 @@ document.getElementById('commentForm').addEventListener('submit', async function
         // إرسال البيانات والحصول على رقم العملية
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
-            mode: 'cors',
+            mode: 'no-cors', // تغيير لـ no-cors لحل مشكلة CORS
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'text/plain',
             },
             body: JSON.stringify(data)
         });
-        
-        // التحقق من نجاح الطلب
-        if (!response.ok) {
-            throw new Error(`فشل في الاتصال بالخادم: ${response.status}`);
-        }
 
-        const result = await response.text();
-        let parsedResult;
-        try {
-            parsedResult = JSON.parse(result);
-            if (!parsedResult.success) {
-                throw new Error(parsedResult.error || 'حدث خطأ غير معروف');
-            }
-        } catch (parseError) {
-            console.error('خطأ في تحليل الاستجابة:', result);
-            throw new Error('فشل في قراءة الاستجابة من الخادم');
-        }
-        
-        // تحديث رقم العملية من الاستجابة
-        const operationNumber = parsedResult.operationNumber;
+        // توليد رقم عملية باستخدام التاريخ والوقت
+        const now = new Date();
+        const operationNumber = '#' + 
+            now.getFullYear().toString().slice(-2) + 
+            (now.getMonth() + 1).toString().padStart(2, '0') +
+            now.getDate().toString().padStart(2, '0') +
+            now.getHours().toString().padStart(2, '0') +
+            now.getMinutes().toString().padStart(2, '0');
 
         // Calculate average rating
         const ratings = [
@@ -192,9 +181,8 @@ document.getElementById('commentForm').addEventListener('submit', async function
             summaryPhone.style.color = '#333';
         }
         
-        // توليد رقم عملية مؤقت (حيث أن mode: 'no-cors' لا يسمح باستقبال الرد)
-        const tempOperationNumber = new Date().getTime().toString().slice(-4);
-        document.getElementById('operationNumber').textContent = '#' + tempOperationNumber;
+        // عرض رقم العملية
+        document.getElementById('operationNumber').textContent = operationNumber;
         
         // Hide loading overlay and show summary
         loadingOverlay.classList.remove('active');
@@ -221,9 +209,13 @@ document.getElementById('commentForm').addEventListener('submit', async function
         loadingOverlay.classList.remove('active');
         submitBtn.disabled = false;
         
-        // إظهار رسالة نجاح
-        messageDiv.textContent = 'تم إرسال تقييمك بنجاح!';
-        messageDiv.className = 'message success';
-        messageDiv.style.display = 'block';
+        if (!messageDiv.classList.contains('error')) {
+            // إظهار رسالة نجاح فقط إذا لم يكن هناك خطأ
+            messageDiv.textContent = 'تم إرسال تقييمك بنجاح! رقم العملية: ' + operationNumber;
+            messageDiv.className = 'message success';
+            messageDiv.style.display = 'block';
+            // عرض ملخص التقييم
+            document.getElementById('feedbackSummary').style.display = 'flex';
+        }
     }
 });
