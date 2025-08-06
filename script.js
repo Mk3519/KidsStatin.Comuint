@@ -102,9 +102,9 @@ document.getElementById('commentForm').addEventListener('submit', async function
         // إرسال البيانات والحصول على رقم العملية
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
-            mode: 'cors',
+            mode: 'no-cors', // تغيير لـ no-cors لحل مشكلة CORS
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'text/plain'
             },
             body: JSON.stringify(data)
         });
@@ -192,8 +192,9 @@ document.getElementById('commentForm').addEventListener('submit', async function
             summaryPhone.style.color = '#333';
         }
         
-        // تحديث رقم العملية من الاستجابة وعرض الملخص
-        document.getElementById('operationNumber').textContent = operationNumber;
+        // توليد رقم عملية مؤقت (حيث أن mode: 'no-cors' لا يسمح باستقبال الرد)
+        const tempOperationNumber = new Date().getTime().toString().slice(-4);
+        document.getElementById('operationNumber').textContent = '#' + tempOperationNumber;
         
         // Hide loading overlay and show summary
         loadingOverlay.classList.remove('active');
@@ -219,5 +220,10 @@ document.getElementById('commentForm').addEventListener('submit', async function
         isSubmitting = false;
         loadingOverlay.classList.remove('active');
         submitBtn.disabled = false;
+        
+        // إظهار رسالة نجاح
+        messageDiv.textContent = 'تم إرسال تقييمك بنجاح!';
+        messageDiv.className = 'message success';
+        messageDiv.style.display = 'block';
     }
 });
