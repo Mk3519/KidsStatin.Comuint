@@ -2,11 +2,110 @@
 <html dir="ltr" lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Customer Feedback</title>
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                width: 100%;
+                max-width: 100%;
+                margin: 0;
+            }
+            
+            .logo {
+                max-width: 150px;
+                margin: 10px auto;
+            }
+            
+            .form-group {
+                margin-bottom: 15px;
+            }
+            
+            .form-group input,
+            .form-group textarea {
+                width: 100%;
+                padding: 8px;
+            }
+            
+            .stars i {
+                font-size: 24px;
+                margin: 0 3px;
+            }
+            
+            .feedback-summary {
+                padding: 10px;
+            }
+            
+            .summary-content {
+                width: 95%;
+                padding: 15px;
+            }
+            
+            .customer-card {
+                padding: 10px;
+            }
+            
+            .card-row {
+                flex-direction: row;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+            
+            .rating-group {
+                margin-bottom: 20px;
+            }
+            
+            #submitBtn {
+                width: 100%;
+                padding: 12px;
+            }
+            
+            .new-feedback-btn {
+                width: 100%;
+                margin-top: 15px;
+            }
+            
+            .average-rating {
+                padding: 10px;
+            }
+            
+            .message {
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 24px;
+                margin: 10px 0;
+            }
+            
+            h2 {
+                font-size: 20px;
+            }
+            
+            h3 {
+                font-size: 18px;
+            }
+            
+            .stars i {
+                font-size: 22px;
+                margin: 0 2px;
+            }
+            
+            .loading-overlay p {
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Loading Screen -->
@@ -69,11 +168,11 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container mobile-friendly">
         <div class="logo-container">
-            <img src="images/logo.png" alt="Logo" class="logo">
+            <img src="images/logo.png" alt="Logo" class="logo" loading="lazy">
         </div>
-        <h1>Customer Feedback</h1>
+        <h1 class="page-title">Customer Feedback</h1>
         <form id="commentForm">
             <div class="form-group">
                 <label for="name">Name:</label>
@@ -84,16 +183,17 @@
                 <input type="tel" id="phone" name="phone" required>
             </div>
             
-            <div class="rating-group">
-                <h3>Service Quality</h3>
-                <div class="stars" data-rating="serviceQuality">
+            <div class="rating-group mobile-rating">
+                <h3 class="rating-title">Service Quality</h3>
+                <div class="stars touch-friendly" data-rating="serviceQuality">
                     <input type="hidden" name="serviceQuality" id="serviceQuality" value="0">
-                    <i class="fas fa-star" data-value="1"></i>
-                    <i class="fas fa-star" data-value="2"></i>
-                    <i class="fas fa-star" data-value="3"></i>
-                    <i class="fas fa-star" data-value="4"></i>
-                    <i class="fas fa-star" data-value="5"></i>
+                    <i class="fas fa-star" data-value="1" role="button" tabindex="0"></i>
+                    <i class="fas fa-star" data-value="2" role="button" tabindex="0"></i>
+                    <i class="fas fa-star" data-value="3" role="button" tabindex="0"></i>
+                    <i class="fas fa-star" data-value="4" role="button" tabindex="0"></i>
+                    <i class="fas fa-star" data-value="5" role="button" tabindex="0"></i>
                 </div>
+                <div class="rating-value" aria-live="polite"></div>
             </div>
 
             <div class="rating-group">
@@ -133,5 +233,44 @@
         <div id="message" class="message"></div>
     </div>
     <script src="script.js"></script>
+    <script>
+        // تحسين التفاعل على الأجهزة المحمولة
+        document.addEventListener('DOMContentLoaded', function() {
+            // منع التكبير عند النقر المزدوج على الأزرار والنجوم
+            document.querySelectorAll('button, .stars i').forEach(element => {
+                element.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                });
+            });
+
+            // تحسين التمرير على الأجهزة المحمولة
+            const form = document.getElementById('commentForm');
+            const inputs = form.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    // التمرير لأعلى بعد إغلاق لوحة المفاتيح
+                    setTimeout(() => {
+                        window.scrollTo(0, 0);
+                    }, 100);
+                });
+            });
+
+            // إضافة دعم للمس للنجوم
+            document.querySelectorAll('.stars.touch-friendly i').forEach(star => {
+                star.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    this.click();
+                });
+            });
+        });
+        
+        // تحسين أداء التحميل على الأجهزة المحمولة
+        if ('loading' in HTMLImageElement.prototype) {
+            const images = document.querySelectorAll('img[loading="lazy"]');
+            images.forEach(img => {
+                img.src = img.dataset.src;
+            });
+        }
+    </script>
 </body>
 </html>
