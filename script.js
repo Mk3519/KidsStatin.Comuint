@@ -12,7 +12,7 @@ function resetForm() {
 }
 
 // Google Apps Script deployed URL
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1Sx5JpvXJUqSwcVYDoQk3CfQwvUJzfS4pR4UUbXq6rqY5wRfIV7UeuRMuKC70l_ki/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz6tpxyCqbTqC50JGtMECs8iFRW-N11-h9l-cN4YqZY6ISg-xj5VLl9GsF_g1B4ilNc/exec';
 
 // Initialize star rating system
 function initializeStars() {
@@ -235,16 +235,20 @@ document.getElementById('commentForm').addEventListener('submit', async function
     messageDiv.style.display = 'none'; // Hide previous messages
 
     // إعداد بيانات التقييم
+    const email = document.getElementById('email').value;
     const data = {
         timestamp: timestamp,
         name: name,
         phone: phone,
+        email: email,
         foodQuality: foodQuality,
         coffeeQuality: coffeeQuality,
         serviceSpeed: serviceSpeed,
         serviceQuality: serviceQuality,
         staffQuality: staffQuality,
-        comment: comment || 'No comment'
+        comment: comment || 'No comment',
+        customerEmail: email, // إضافة البريد الإلكتروني للعميل
+        logoUrl: 'https://mk3519.github.io/KidsStatin.Comuint/images/logo.png' // إضافة رابط الشعار
     };
     
     // Send data to Google Sheets
