@@ -61,24 +61,32 @@ survey. We value you as a customer and would appreciate your feedback!</p>
             </div>
             <div class="summary-ratings">
                 <div class="summary-item">
-                    <h4>Food Quality / جودة الطعام:</h4>
-                    <div class="stars-summary" id="summaryFoodQuality"></div>
-                </div>
-                <div class="summary-item">
-                    <h4>Coffee Quality / جودة القهوة:</h4>
-                    <div class="stars-summary" id="summaryCoffeeQuality"></div>
-                </div>
-                <div class="summary-item">
-                    <h4>Service Speed / سرعة الخدمة:</h4>
-                    <div class="stars-summary" id="summaryServiceSpeed"></div>
-                </div>
-                <div class="summary-item">
-                    <h4>Service Quality / جودة الخدمة:</h4>
+                    <h4>مدى رضاكم عن الخدمة المقدمة؟</h4>
                     <div class="stars-summary" id="summaryServiceQuality"></div>
                 </div>
                 <div class="summary-item">
-                    <h4>Staff Quality / تقييم الموظفين:</h4>
-                    <div class="stars-summary" id="summaryStaffQuality"></div>
+                    <h4>مدى نظافة المكان؟</h4>
+                    <div class="stars-summary" id="summaryCleanliness"></div>
+                </div>
+                <div class="summary-item">
+                    <h4>جودة وصيانة الألعاب والمرافق؟</h4>
+                    <div class="stars-summary" id="summaryFacilities"></div>
+                </div>
+                <div class="summary-item">
+                    <h4>تنوع الأنشطة والترفيه المتاحة؟</h4>
+                    <div class="stars-summary" id="summaryActivities"></div>
+                </div>
+                <div class="summary-item">
+                    <h4>ودية واستجابة الموظفين؟</h4>
+                    <div class="stars-summary" id="summaryStaffFriendliness"></div>
+                </div>
+                <div class="summary-item">
+                    <h4>أسعار خدمات كيدز ستيشن؟</h4>
+                    <div class="stars-summary" id="summaryPrices"></div>
+                </div>
+                <div class="summary-item">
+                    <h4>هل تنصح بهذا المكان للآخرين؟</h4>
+                    <div class="stars-summary" id="summaryRecommendation"></div>
                 </div>
             </div>
             <div class="average-rating">
@@ -104,6 +112,26 @@ survey. We value you as a customer and would appreciate your feedback!</p>
         <h1>Customer Feedback</h1>
         <form id="commentForm">
             <div class="form-group">
+                <label for="branch">Branch / الفرع:</label>
+                <select id="branch" name="branch" required>
+                    <option value="" disabled selected>Select Branch / اختر الفرع</option>  
+                    <option value="Zahraa El Maadi | زهراء المعادي">Zahraa El Maadi | زهراء المعادي</option>
+                    <option value="Tagamoa | التجمع">Tagamoa | التجمع</option>
+                    <option value="Sheikh Zayed (Americana Plaza) | الشيخ زايد (أمريكانا بلازا)">Sheikh Zayed (Americana Plaza) | الشيخ زايد (أمريكانا بلازا)</option>
+                    <option value="SODIC Zayed (Hub Mall) | سوديك زايد (هب مول)">SODIC Zayed (Hub Mall) | سوديك زايد (هب مول)</option>
+                    <option value="Rehab (Gateway Mall) | الرحاب (جيت واي مول)">Rehab (Gateway Mall) | الرحاب (جيت واي مول)</option>
+                    <option value="Nasr City | مدينة نصر">Nasr City | مدينة نصر</option>
+                    <option value="Obour (Hub Mall) | العبور (هب مول)">Obour (Hub Mall) | العبور (هب مول)</option>
+                    <option value="Madinaty (East Hub Mall) | مدينتي (إيست هب مول)">Madinaty (East Hub Mall) | مدينتي (إيست هب مول)</option>
+                    <option value="Alexandria (Smouha – Metager Mall) | الإسكندرية (سموحة – مول متاجر)">Alexandria (Smouha – Metager Mall) | الإسكندرية (سموحة – مول متاجر)</option>
+                    <option value="Mansoura (University District) | المنصورة (حي الجامعة)">Mansoura (University District) | المنصورة (حي الجامعة)</option>
+                    <option value="Sokhna (Grand Ocean Mall) | السخنة (جراند أوشن مول)">Sokhna (Grand Ocean Mall) | السخنة (جراند أوشن مول)</option>
+                    <option value="North Coast (Cozy Mall – Seasonal) | الساحل الشمالي (كوزي مول – موسمي)">North Coast (Cozy Mall – Seasonal) | الساحل الشمالي (كوزي مول – موسمي)</option>
+                    <option value="Riyadh – Al Worood | الرياض – حي الورود">Riyadh – Al Worood | الرياض – حي الورود</option>
+                    <option value="Riyadh – Al Yasmin | الرياض – حي الياسمين">Riyadh – Al Yasmin | الرياض – حي الياسمين</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" placeholder="Name" required>
             </div>
@@ -118,43 +146,7 @@ survey. We value you as a customer and would appreciate your feedback!</p>
             </div>
             
             <div class="rating-group">
-                <h3>Food Quality / جودة الطعام</h3>
-                <div class="stars" data-rating="foodQuality">
-                    <input type="hidden" name="foodQuality" id="foodQuality" value="0">
-                    <i class="fas fa-star" data-value="1"></i>
-                    <i class="fas fa-star" data-value="2"></i>
-                    <i class="fas fa-star" data-value="3"></i>
-                    <i class="fas fa-star" data-value="4"></i>
-                    <i class="fas fa-star" data-value="5"></i>
-                </div>
-            </div>
-
-            <div class="rating-group">
-                <h3>Coffee Quality / جودة القهوة</h3>
-                <div class="stars" data-rating="coffeeQuality">
-                    <input type="hidden" name="coffeeQuality" id="coffeeQuality" value="0">
-                    <i class="fas fa-star" data-value="1"></i>
-                    <i class="fas fa-star" data-value="2"></i>
-                    <i class="fas fa-star" data-value="3"></i>
-                    <i class="fas fa-star" data-value="4"></i>
-                    <i class="fas fa-star" data-value="5"></i>
-                </div>
-            </div>
-
-            <div class="rating-group">
-                <h3>Service Speed / سرعة الخدمة</h3>
-                <div class="stars" data-rating="serviceSpeed">
-                    <input type="hidden" name="serviceSpeed" id="serviceSpeed" value="0">
-                    <i class="fas fa-star" data-value="1"></i>
-                    <i class="fas fa-star" data-value="2"></i>
-                    <i class="fas fa-star" data-value="3"></i>
-                    <i class="fas fa-star" data-value="4"></i>
-                    <i class="fas fa-star" data-value="5"></i>
-                </div>
-            </div>
-
-            <div class="rating-group">
-                <h3>Service Quality / جودة الخدمة</h3>
+                <h3>مدى رضاكم عن الخدمة المقدمة؟</h3>
                 <div class="stars" data-rating="serviceQuality">
                     <input type="hidden" name="serviceQuality" id="serviceQuality" value="0">
                     <i class="fas fa-star" data-value="1"></i>
@@ -166,9 +158,69 @@ survey. We value you as a customer and would appreciate your feedback!</p>
             </div>
 
             <div class="rating-group">
-                <h3>Staff Appearance & Behavior / مظهر وسلوك الموظفين</h3>
-                <div class="stars" data-rating="staffQuality">
-                    <input type="hidden" name="staffQuality" id="staffQuality" value="0">
+                <h3>مدى نظافة المكان؟</h3>
+                <div class="stars" data-rating="cleanliness">
+                    <input type="hidden" name="cleanliness" id="cleanliness" value="0">
+                    <i class="fas fa-star" data-value="1"></i>
+                    <i class="fas fa-star" data-value="2"></i>
+                    <i class="fas fa-star" data-value="3"></i>
+                    <i class="fas fa-star" data-value="4"></i>
+                    <i class="fas fa-star" data-value="5"></i>
+                </div>
+            </div>
+
+            <div class="rating-group">
+                <h3>جودة وصيانة الألعاب والمرافق؟</h3>
+                <div class="stars" data-rating="facilities">
+                    <input type="hidden" name="facilities" id="facilities" value="0">
+                    <i class="fas fa-star" data-value="1"></i>
+                    <i class="fas fa-star" data-value="2"></i>
+                    <i class="fas fa-star" data-value="3"></i>
+                    <i class="fas fa-star" data-value="4"></i>
+                    <i class="fas fa-star" data-value="5"></i>
+                </div>
+            </div>
+
+            <div class="rating-group">
+                <h3>تنوع الأنشطة والترفيه المتاحة؟</h3>
+                <div class="stars" data-rating="activities">
+                    <input type="hidden" name="activities" id="activities" value="0">
+                    <i class="fas fa-star" data-value="1"></i>
+                    <i class="fas fa-star" data-value="2"></i>
+                    <i class="fas fa-star" data-value="3"></i>
+                    <i class="fas fa-star" data-value="4"></i>
+                    <i class="fas fa-star" data-value="5"></i>
+                </div>
+            </div>
+
+            <div class="rating-group">
+                <h3>ودية واستجابة الموظفين؟</h3>
+                <div class="stars" data-rating="staffFriendliness">
+                    <input type="hidden" name="staffFriendliness" id="staffFriendliness" value="0">
+                    <i class="fas fa-star" data-value="1"></i>
+                    <i class="fas fa-star" data-value="2"></i>
+                    <i class="fas fa-star" data-value="3"></i>
+                    <i class="fas fa-star" data-value="4"></i>
+                    <i class="fas fa-star" data-value="5"></i>
+                </div>
+            </div>
+
+            <div class="rating-group">
+                <h3>أسعار خدمات كيدز ستيشن؟</h3>
+                <div class="stars" data-rating="prices">
+                    <input type="hidden" name="prices" id="prices" value="0">
+                    <i class="fas fa-star" data-value="1"></i>
+                    <i class="fas fa-star" data-value="2"></i>
+                    <i class="fas fa-star" data-value="3"></i>
+                    <i class="fas fa-star" data-value="4"></i>
+                    <i class="fas fa-star" data-value="5"></i>
+                </div>
+            </div>
+
+            <div class="rating-group">
+                <h3>هل تنصح بهذا المكان للآخرين؟</h3>
+                <div class="stars" data-rating="recommendation">
+                    <input type="hidden" name="recommendation" id="recommendation" value="0">
                     <i class="fas fa-star" data-value="1"></i>
                     <i class="fas fa-star" data-value="2"></i>
                     <i class="fas fa-star" data-value="3"></i>
