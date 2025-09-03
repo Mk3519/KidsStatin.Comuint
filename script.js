@@ -111,7 +111,7 @@ async function downloadSummary() {
         
         // إنشاء رابط للتحميل
         const link = document.createElement('a');
-        link.download = 'تقييم-Cafe-station.png';
+        link.download = 'تقييم-Kids-station.png';
         link.href = imageUrl;
         link.click();
 
@@ -163,10 +163,10 @@ async function shareSummary() {
         // تحويل الصورة إلى blob
         canvas.toBlob((blob) => {
             // إنشاء ملف من الـ blob
-            const file = new File([blob], 'تقييم-Cafe-Station.png', { type: 'image/png' });
+            const file = new File([blob], 'تقييم-Kids-Station.png', { type: 'image/png' });
 
             // إنشاء رابط مشاركة واتساب
-            const text = 'تقييمي لـ Cafe Station 🌟';
+            const text = 'تقييمي لـ Kids Station 🌟';
             const shareUrl = `whatsapp://send?text=${encodeURIComponent(text)}`;
             
             // فتح واتساب
