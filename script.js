@@ -12,7 +12,7 @@ function resetForm() {
 }
 
 // Google Apps Script deployed URL
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby3eMlpmoPPqjBO-DPmZcnrPxVf2nPchHtMKMUsmPBxtq48764oo-NdwREZFYgbnfxp/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby-ZfzkLwqb8hz-ke6vXtB_4s6miE9qoEmZYcSFttKo1kYVgDntqX8nGdzroiywWRae/exechttps://script.google.com/macros/s/AKfycbyced6pNn71uJFbvJwahcKqqtI2tpjm734XOvx_fDePHaJW5z59fjQq2KxtQbB9OAs9/exec';
 
 // Initialize star rating system
 function initializeStars() {
@@ -196,6 +196,7 @@ const customerFeedbacks = new Map();
 // Variable to track submission status
 let isSubmitting = false;
 
+
 document.getElementById('commentForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
@@ -213,16 +214,20 @@ document.getElementById('commentForm').addEventListener('submit', async function
     const timestamp = new Date().toLocaleString();
     
     // Get ratings input
-    const foodQuality = document.getElementById('foodQuality').value;
-    const coffeeQuality = document.getElementById('coffeeQuality').value;
-    const serviceSpeed = document.getElementById('serviceSpeed').value;
     const serviceQuality = document.getElementById('serviceQuality').value;
-    const staffQuality = document.getElementById('staffQuality').value;
+    const cleanliness = document.getElementById('cleanliness').value;
+    const facilities = document.getElementById('facilities').value;
+    const activities = document.getElementById('activities').value;
+    const staffFriendliness = document.getElementById('staffFriendliness').value;
+    const prices = document.getElementById('prices').value;
+    const recommendation = document.getElementById('recommendation').value;
+    const branch = document.getElementById('branch').value;
 
-    // تحقق من وجود تقييمات
-    if (foodQuality === '0' || coffeeQuality === '0' || serviceSpeed === '0' || 
-        serviceQuality === '0' || staffQuality === '0') {
-        messageDiv.textContent = 'الرجاء تقييم جميع الأقسام';
+    // تحقق من وجود تقييمات والفرع
+    if (serviceQuality === '0' || cleanliness === '0' || facilities === '0' || 
+        activities === '0' || staffFriendliness === '0' || prices === '0' ||
+        recommendation === '0' || !branch) {
+        messageDiv.textContent = 'الرجاء تقييم جميع الأقسام واختيار الفرع';
         messageDiv.className = 'message error';
         messageDiv.style.display = 'block';
         return;
@@ -241,14 +246,17 @@ document.getElementById('commentForm').addEventListener('submit', async function
         name: name,
         phone: phone,
         email: email,
-        foodQuality: foodQuality,
-        coffeeQuality: coffeeQuality,
-        serviceSpeed: serviceSpeed,
+        branch: branch,
         serviceQuality: serviceQuality,
-        staffQuality: staffQuality,
+        cleanliness: cleanliness,
+        facilities: facilities,
+        activities: activities,
+        staffFriendliness: staffFriendliness,
+        prices: prices,
+        recommendation: recommendation,
         comment: comment || 'No comment',
-        customerEmail: email, // إضافة البريد الإلكتروني للعميل
-        logoUrl: 'https://mk3519.github.io/KidsStatin.Comuint/images/logo.png' // إضافة رابط الشعار
+        customerEmail: email,
+        logoUrl: 'https://mk3519.github.io/KidsStatin.Comuint/images/logo.png'
     };
     
     // Send data to Google Sheets
@@ -277,11 +285,13 @@ document.getElementById('commentForm').addEventListener('submit', async function
 
         // Calculate average rating
         const ratings = [
-            parseInt(foodQuality),
-            parseInt(coffeeQuality),
-            parseInt(serviceSpeed),
             parseInt(serviceQuality),
-            parseInt(staffQuality)
+            parseInt(cleanliness),
+            parseInt(facilities),
+            parseInt(activities),
+            parseInt(staffFriendliness),
+            parseInt(prices),
+            parseInt(recommendation)
         ];
         const average = (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1);
 
@@ -315,11 +325,13 @@ document.getElementById('commentForm').addEventListener('submit', async function
         }
 
         // Update each rating section
-        createStarRating('summaryFoodQuality', foodQuality);
-        createStarRating('summaryCoffeeQuality', coffeeQuality);
-        createStarRating('summaryServiceSpeed', serviceSpeed);
         createStarRating('summaryServiceQuality', serviceQuality);
-        createStarRating('summaryStaffQuality', staffQuality);
+        createStarRating('summaryCleanliness', cleanliness);
+        createStarRating('summaryFacilities', facilities);
+        createStarRating('summaryActivities', activities);
+        createStarRating('summaryStaffFriendliness', staffFriendliness);
+        createStarRating('summaryPrices', prices);
+        createStarRating('summaryRecommendation', recommendation);
 
         // Update average rating
         document.getElementById('averageRating').textContent = average + ' / 5';
