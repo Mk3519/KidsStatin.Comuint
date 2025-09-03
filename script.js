@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (welcomeScreen) {
         setTimeout(() => {
             welcomeScreen.style.display = 'none';
-        }, 9000); // 15 seconds
+        }, 5000); // 5 seconds
     }
     initializeStars();
     
