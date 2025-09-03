@@ -9,14 +9,17 @@ function doPost(e) {
       sheet.appendRow([
         "Timestamp",
         "OperationNumber",
+        "Branch",
         "Name",
         "Phone",
         "Email",
-        "FoodQuality",
-        "CoffeeQuality",
-        "ServiceSpeed",
         "ServiceQuality",
-        "StaffQuality",
+        "Cleanliness",
+        "Facilities",
+        "Activities",
+        "StaffFriendliness",
+        "Prices",
+        "Recommendation",
         "Comment"
       ]);
     }
@@ -32,11 +35,13 @@ function doPost(e) {
 
     // حساب متوسط التقييم
     const ratings = [
-      parseInt(data.foodQuality) || 0,
-      parseInt(data.coffeeQuality) || 0,
-      parseInt(data.serviceSpeed) || 0,
       parseInt(data.serviceQuality) || 0,
-      parseInt(data.staffQuality) || 0
+      parseInt(data.cleanliness) || 0,
+      parseInt(data.facilities) || 0,
+      parseInt(data.activities) || 0,
+      parseInt(data.staffFriendliness) || 0,
+      parseInt(data.prices) || 0,
+      parseInt(data.recommendation) || 0
     ];
     const averageRating = (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1);
     
@@ -44,14 +49,17 @@ function doPost(e) {
     sheet.appendRow([
       data.timestamp,
       operationNumber,
+      data.branch,
       data.name,
       data.phone,
       data.email,
-      data.foodQuality,
-      data.coffeeQuality,
-      data.serviceSpeed,
       data.serviceQuality,
-      data.staffQuality,
+      data.cleanliness,
+      data.facilities,
+      data.activities,
+      data.staffFriendliness,
+      data.prices,
+      data.recommendation,
       data.comment || 'لا يوجد تعليق / No comment'
     ]);
 
@@ -61,7 +69,7 @@ function doPost(e) {
     // إرسال البريد الإلكتروني للإدارة
     MailApp.sendEmail({
       to: "magedmedhat351@gmail.com",
-      subject: `New Review - تقييم جديد - Cafe Station ${operationNumber}`,
+      subject: `تقييم جديد - فرع ${data.branch} - Kids Station ${operationNumber}`,
       htmlBody: emailTemplate.adminEmail
     });
 
@@ -69,7 +77,7 @@ function doPost(e) {
     if (data.email) {
       MailApp.sendEmail({
         to: data.email,
-        subject: `Thank You for Your Review - شكراً لتقييمك - Cafe Station ${operationNumber}`,
+        subject: `شكراً لتقييمك - كيدز ستيشن ${data.branch} - ${operationNumber}`,
         htmlBody: emailTemplate.customerEmail
       });
     }
@@ -102,8 +110,8 @@ function createEmailTemplate(data, operationNumber, averageRating) {
   const commonTemplate = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
       <div style="text-align: center; margin-bottom: 30px;">
-        <img src="${data.logoUrl}" alt="Cafe Station Logo" style="width: 150px; margin-bottom: 20px;">
-        <h1 style="color: #b37400; margin: 0;">Cafe Station</h1>
+        <img src="${data.logoUrl}" alt="Kids Station Logo" style="width: 150px; margin-bottom: 20px;">
+        <h1 style="color: #b37400; margin: 0;">Kids Station</h1>
         <p style="color: #666; font-size: 16px;">${operationNumber}</p>
       </div>
 
@@ -115,11 +123,14 @@ function createEmailTemplate(data, operationNumber, averageRating) {
 
       <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
         <h3 style="color: #b37400; margin-top: 0;">التقييمات / Ratings</h3>
-        <p><strong>جودة الطعام / Food Quality:</strong> ${getStars(data.foodQuality)}</p>
-        <p><strong>جودة القهوة / Coffee Quality:</strong> ${getStars(data.coffeeQuality)}</p>
-        <p><strong>سرعة الخدمة / Service Speed:</strong> ${getStars(data.serviceSpeed)}</p>
-        <p><strong>جودة الخدمة / Service Quality:</strong> ${getStars(data.serviceQuality)}</p>
-        <p><strong>تقييم الموظفين / Staff Rating:</strong> ${getStars(data.staffQuality)}</p>
+        <p style="direction: rtl;"><strong>الفرع:</strong> ${data.branch}</p>
+        <p style="direction: rtl;"><strong>مدى رضاكم عن الخدمة المقدمة:</strong> ${getStars(data.serviceQuality)}</p>
+        <p style="direction: rtl;"><strong>مدى نظافة المكان:</strong> ${getStars(data.cleanliness)}</p>
+        <p style="direction: rtl;"><strong>جودة وصيانة الألعاب والمرافق:</strong> ${getStars(data.facilities)}</p>
+        <p style="direction: rtl;"><strong>تنوع الأنشطة والترفيه المتاحة:</strong> ${getStars(data.activities)}</p>
+        <p style="direction: rtl;"><strong>ودية واستجابة الموظفين:</strong> ${getStars(data.staffFriendliness)}</p>
+        <p style="direction: rtl;"><strong>أسعار خدمات كيدز ستيشن:</strong> ${getStars(data.prices)}</p>
+        <p style="direction: rtl;"><strong>هل تنصح بهذا المكان للآخرين:</strong> ${getStars(data.recommendation)}</p>
         <p style="font-size: 18px; margin-top: 15px; text-align: center;">
           <strong>متوسط التقييم / Average Rating: </strong>
           <span style="color: #b37400; font-size: 24px;">${averageRating}/5</span>
@@ -135,26 +146,28 @@ function createEmailTemplate(data, operationNumber, averageRating) {
 
   // نسخة خاصة للعميل
   const customerEmail = `
-    <div style="text-align: center; font-family: Arial, sans-serif;">
-      <h2 style="color: #b37400;">شكراً لتقييمك! / Thank You for Your Review!</h2>
+    <div style="text-align: center; font-family: Arial, sans-serif; direction: rtl;">
+      <h2 style="color: #b37400;">شكراً لتقييمك!</h2>
       ${commonTemplate}
       <p style="color: #666; margin-top: 20px;">
-        نقدر ملاحظاتك ونعمل دائماً على تحسين خدماتنا
+        نقدر ملاحظاتك ونعمل دائماً على تحسين خدماتنا في كيدز ستيشن
         <br>
-        We appreciate your feedback and continuously work to improve our services
+        سعداء بزيارتكم ونتطلع لرؤيتكم مرة أخرى
       </p>
     </div>
   `;
 
   // نسخة خاصة للإدارة
   const adminEmail = `
-    <div style="font-family: Arial, sans-serif;">
-      <h2 style="color: #b37400;">تقييم جديد / New Review</h2>
+    <div style="font-family: Arial, sans-serif; direction: rtl;">
+      <h2 style="color: #b37400;">تقييم جديد من فرع ${data.branch}</h2>
       ${commonTemplate}
       <div style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border-radius: 8px;">
-        <p><strong>معلومات التواصل / Contact Information:</strong></p>
-        <p>الهاتف / Phone: ${data.phone}</p>
-        <p>البريد الإلكتروني / Email: ${data.email || 'غير متوفر / Not available'}</p>
+        <p><strong>معلومات التواصل:</strong></p>
+        <p>الاسم: ${data.name}</p>
+        <p>الهاتف: ${data.phone}</p>
+        <p>البريد الإلكتروني: ${data.email || 'غير متوفر'}</p>
+        <p>تاريخ التقييم: ${data.timestamp}</p>
       </div>
     </div>
   `;
